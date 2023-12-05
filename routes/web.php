@@ -22,3 +22,9 @@ Route::post('/add-student', [StudentController::class, 'insert'])->name('add-stu
 Route::get('/student-list', [StudentController::class, 'view'])->name('student-list');
 
 Route::get('/', [StudentController::class, 'index'])->name('home');
+
+Route::get('/edit-student/{student}', [StudentController::class, 'edit'])->name('edit-student');
+
+Route::post('/update-student/{student}', [StudentController::class, 'update'])->name('update-student');
+
+Route::get('/delete-student/{student}', [StudentController::class, 'delete'])->name('delete-student');

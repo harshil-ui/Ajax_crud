@@ -16,11 +16,10 @@
     <div><a href="{{route('student-list')}}">Students</a></div>
     <form enctype="multipart/form-data" id="my-form">
         @csrf
-
-        <input type="text" name="name" id="" placeholder="Enter Your Name"> <br><br>
-        <input type="email" name="email" id="" placeholder="Enter your Email"> <br><br>
-        <input type="file" name="file" id=""> <br><br>
-        <input type="submit" value="Add" id="btn-submit">
+        <input type="text" name="name" value="{{$student->name}}" placeholder="Enter Your Name"> <br><br>
+        <input type="email" name="email" value="{{$student->email}}" placeholder="Enter your Email"> <br><br>
+        <input type="file" name="file"> <br><br>
+        <input type="submit" value="Update" id="btn-submit">
     </form>
     <span id="output"></span>
 
@@ -28,29 +27,30 @@
         $(document).ready(function() {
             $("#my-form").submit(function(event) {
                 event.preventDefault();
+
                 var form = $("#my-form")[0];
                 var data = new FormData(form);
 
                 $("#btn-submit").prop("disabled", true);
-
                 $.ajax({
-                    type: "POST",
-                    url: "{{ route('add-student') }}",
+                    method: "POST",
+                    url: "{{route('update-student', $student->id)}}",
                     data: data,
                     processData: false,
                     contentType: false,
                     success: function(data) {
-                        $("#output").text(data.name + " Created Successfully!");
+                        $("#output").text(data.name + " Updated Successfully..!");
                         $("#btn-submit").prop("disabled", false);
                         form.reset();
                         window.location.href = "{{route('student-list')}}";
                     },
-                    error: function(err) {
+                    error: function(error) {
                         $("#output").text(e.responseText);
                         $("#btn-submit").prop("disabled", false);
                         form.reset();
                     }
                 });
+
             });
         });
     </script>

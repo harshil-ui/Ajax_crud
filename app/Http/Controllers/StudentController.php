@@ -32,4 +32,30 @@ class StudentController extends Controller
     {
         return view('student.index');
     }
+
+    public function edit(Student $student)
+    {
+        return view('student.edit', ['student' => $student]);
+    }
+
+    public function update(Student $student, Request $request)
+    {
+        $data = $request->all();
+        if ($file = $request->file('file')) {
+            $fileName = time() . '' . $file->getClientOriginalName();
+            $filePath = $file->storeAs('images', $fileName, 'public');
+            $data['image'] = $filePath;
+        }
+
+        $student->update($data);
+
+        return response()->json(['name' => $student->name]);
+    }
+
+    public function delete(Student $student)
+    {
+        $student->delete();
+
+        return response()->json(['name' => $student->name]);
+    }
 }
